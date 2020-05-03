@@ -3,7 +3,8 @@
 
 
 // normal object actions
-const gotPosts = (posts) => {
+const showPosts = (posts) => {
+    console.log("inside gotPosts")
     return {
         type: 'SHOW_POSTS',
         payload: posts
@@ -17,24 +18,24 @@ const addPost = (post) => {
     }
 }
 
-//normal object actions
-//Async actions
+//middleware actions
+//Async actions 
 export const fetchPosts = () => {
     return (dispatch) => {
-        dispatch({type: 'FETCHING_POSTS'})
-        return fetch('http://localhost:3000/posts.json')
-            .then(res => res.json())
-            .then(posts => {
-                let mutatedPosts = posts
-                console.log("posts:", posts)
-                dispatch(gotPosts(mutatedPosts))
+        dispatch({ type: 'FETCHING_POSTS' })
+        return fetch('http://127.0.0.1:3001/posts.json')
+        .then(res => res.json())
+        .then(posts => {
+            let mutatedPosts = posts
+            console.log("posts:", posts)
+            dispatch(showPosts(mutatedPosts))
             })
     }
 }
 
 export const createPost = (post) => {
     return (dispatch) => {
-        return fetch('http://localhost:3000/posts', {
+        return fetch('http://localhost:3001/posts', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

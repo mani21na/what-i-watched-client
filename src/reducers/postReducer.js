@@ -1,4 +1,5 @@
 const postReducer = (state = {posts: [], loading: false}, action) => {
+    //debugger;
     switch(action.type){
         case 'FETCHING_POSTS':
             return {...state, loading: true}
