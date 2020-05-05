@@ -4,7 +4,6 @@
 
 // normal object actions
 const showPosts = (posts) => {
-    console.log("inside gotPosts")
     return {
         type: 'SHOW_POSTS',
         payload: posts
@@ -18,6 +17,14 @@ const addPost = (post) => {
     }
 }
 
+const removePost = (post_id) => {
+    return {
+        type: 'DELETE_POST',
+        payload: post_id
+    }
+}
+
+
 //middleware actions
 //Async actions 
 export const fetchPosts = () => {
@@ -27,24 +34,41 @@ export const fetchPosts = () => {
         .then(res => res.json())
         .then(posts => {
             let mutatedPosts = posts
-            console.log("posts:", posts)
             dispatch(showPosts(mutatedPosts))
-            })
+        })
     }
 }
 
 export const createPost = (post) => {
     return (dispatch) => {
-        return fetch('http://localhost:3001/posts', {
+        return fetch('http://127.0.0.1:3001/posts', {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-              },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({post: post})
         })
         .then(res => res.json())
         .then(post => {
             dispatch(addPost(post))
         })
+    }
+}
+
+export const deletePost = (post_id) => {
+    return (dispatch) => {
+        return fetch('http://127.0.0.1:3001/posts/'+post_id, {
+            method: "DELETE"
+        })
+        .then(dispatch(removePost(post_id)))
+    }
+}
+
+export const updateLikesPost = (post) => {
+    return (dispatch) => {
+        return fetch('http://127.0.0.1:3001/posts/'+post.id, {
+            method: "PATCH",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({post: post})
+        })
+        .then(dispatch(showPosts(post)))
     }
 }

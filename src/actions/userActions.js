@@ -22,11 +22,11 @@ const addUser = (user) => {
 export const fetchUsers = () => {
     return (dispatch) => {
         dispatch({type: 'FETCHING_USERS'})
-        return fetch('http://localhost:3000/users.json')
+        return fetch('http://localhost:3001/users.json')
             .then(res => res.json())
             .then(users => {
                 let mutatedUsers = users
-                console.log("users:", users)
+                console.log("userAction users:", users)
                 dispatch(gotUsers(mutatedUsers))
             })
     }
@@ -34,8 +34,24 @@ export const fetchUsers = () => {
 
 export const createUser = (user) => {
     return (dispatch) => {
-        return fetch('http://localhost:3000/users', {
+        return fetch('http://localhost:3001/users', {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify({user: user})
+        })
+        .then(res => res.json())
+        .then(user => {
+            dispatch(addUser(user))
+        })
+    }
+}
+
+export const showUser = (user) => {
+    return (dispatch) => {
+        return fetch('http://localhost:3001/users', {
+            method: "GET",
             headers: {
                 'Content-Type': 'application/json'
               },

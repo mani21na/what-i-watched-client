@@ -1,7 +1,8 @@
 import React from 'react'
 import { fetchPosts } from '../actions/postActions.js'
 import { connect } from 'react-redux'
-import Post from '../components/Post'
+//import Post from '../components/Post'
+import PostCard from './PostCard.js'
 
 class PostContainer extends React.Component {
 
@@ -17,7 +18,7 @@ class PostContainer extends React.Component {
     render() {
         return(
             <div>
-                {this.props.loading ? <h1>Loading all the posts</h1>  : this.props.posts.map(p => <Post key={p.id} post={p} />)}
+                {this.props.loading ? <h1>Loading all the posts</h1>  : this.props.posts.reverse().map(p => <PostCard key={p.id} post={p} />)}
             </div>
         )
     }
