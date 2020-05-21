@@ -1,24 +1,26 @@
 import React from 'react'
-import { fetchPosts } from '../actions/postActions.js'
+import { fetchPosts } from '../actions/postActions'
+import { fetchLikes } from '../actions/likeActions'
+import { fetchUsers } from '../actions/userActions'
 import { connect } from 'react-redux'
-//import Post from '../components/Post'
-import PostCard from './PostCard.js'
+
+import Post from './Post.js'
+//import likesReducer from '../reducers/likesReducer'
 
 class PostContainer extends React.Component {
-
+    
     componentDidMount() {
-        console.log("component did mount")
-        // call an action that fetches all posts in state
-        //async
+        this.props.fetchLikes()
         this.props.fetchPosts()
-        console.log(this.props)
-        console.log("component finished action calls")
+        this.props.fetchUsers()
     }
 
     render() {
+        const {posts}  = this.props
+        //console.log(posts)
         return(
-            <div>
-                {this.props.loading ? <h1>Loading all the posts</h1>  : this.props.posts.reverse().map(p => <PostCard key={p.id} post={p} />)}
+            <div className='App-post-location'>
+                {(posts) ? posts.map((post) => <Post key={post.id} post={post} />) : <h1>Loading all the Posts</h1>}               
             </div>
         )
     }
@@ -26,10 +28,8 @@ class PostContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        //
-        posts: state.postReducer.posts,
-        loading: state.postReducer.loading
+        posts: state.postReducer.posts
     }
 }
 
-export default connect(mapStateToProps, {fetchPosts})(PostContainer)
+export default connect(mapStateToProps, { fetchPosts, fetchLikes, fetchUsers })(PostContainer)

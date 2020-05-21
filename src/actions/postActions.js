@@ -3,9 +3,9 @@
 
 
 // normal object actions
-const showPosts = (posts) => {
+const getPosts = (posts) => {
     return {
-        type: 'SHOW_POSTS',
+        type: 'GET_POSTS',
         payload: posts
     }
 }
@@ -17,27 +17,32 @@ const addPost = (post) => {
     }
 }
 
-const removePost = (post_id) => {
+const removePost = (postId) => {
     return {
         type: 'DELETE_POST',
-        payload: post_id
+        payload: postId
     }
 }
 
+const removeLike = (postId) => {
+    return {
+        type: 'DELETE_LIKE',
+        payload: postId
+    }
+}
 
-//middleware actions
-//Async actions 
 export const fetchPosts = () => {
     return (dispatch) => {
-        dispatch({ type: 'FETCHING_POSTS' })
-        return fetch('http://127.0.0.1:3001/posts.json')
+        dispatch({type: 'FETCHING_POSTS'})
+        return fetch('http://localhost:3001/posts.json')
         .then(res => res.json())
         .then(posts => {
-            let mutatedPosts = posts
-            dispatch(showPosts(mutatedPosts))
+            //console.log("posts:", posts)
+            dispatch(getPosts(posts))
         })
     }
 }
+
 
 export const createPost = (post) => {
     return (dispatch) => {
@@ -53,22 +58,13 @@ export const createPost = (post) => {
     }
 }
 
-export const deletePost = (post_id) => {
+export const deletePost = (postId) => {
     return (dispatch) => {
-        return fetch('http://127.0.0.1:3001/posts/'+post_id, {
-            method: "DELETE"
+        return fetch(`http://127.0.0.1:3001/posts/${postId}`, {
+            method: 'DELETE'
         })
-        .then(dispatch(removePost(post_id)))
-    }
-}
-
-export const updateLikesPost = (post) => {
-    return (dispatch) => {
-        return fetch('http://127.0.0.1:3001/posts/'+post.id, {
-            method: "PATCH",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({post: post})
-        })
-        .then(dispatch(showPosts(post)))
+        .then(dispatch(removePost(postId)))
+        .then(dispatch(removeLike(postId)))
+        .catch(err => console.log(err))
     }
 }

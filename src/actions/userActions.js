@@ -5,7 +5,7 @@
 // normal object actions
 const gotUsers = (users) => {
     return {
-        type: 'SHOW_USERS',
+        type: 'GET_USERS',
         payload: users
     }
 }
@@ -25,9 +25,8 @@ export const fetchUsers = () => {
         return fetch('http://localhost:3001/users.json')
             .then(res => res.json())
             .then(users => {
-                let mutatedUsers = users
-                console.log("userAction users:", users)
-                dispatch(gotUsers(mutatedUsers))
+                //console.log('users:', users)
+                dispatch(gotUsers(users))
             })
     }
 }
@@ -48,18 +47,18 @@ export const createUser = (user) => {
     }
 }
 
-export const showUser = (user) => {
-    return (dispatch) => {
-        return fetch('http://localhost:3001/users', {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify({user: user})
-        })
-        .then(res => res.json())
-        .then(user => {
-            dispatch(addUser(user))
-        })
-    }
-}
+//export const showUser = (user) => {
+//    return (dispatch) => {
+//        return fetch('http://localhost:3001/users', {
+//            method: "GET",
+//            headers: {
+//                'Content-Type': 'application/json'
+//              },
+//            body: JSON.stringify({user: user})
+//        })
+//        .then(res => res.json())
+//        .then(user => {
+//            dispatch(addUser(user))
+//        })
+//    }
+//}

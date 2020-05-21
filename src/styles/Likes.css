@@ -1,0 +1,13 @@
+body{
+  background-color: #fafafa !important;
+}
+
+.PostCardLikes_count {
+  font-size: 16px;
+  line-height: 20px;
+  margin-left: 5px;
+}
+
+.PostCardLikes {
+  position: relative;
+}

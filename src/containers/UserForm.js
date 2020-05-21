@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux'
 
 import { createUser } from '../actions/userActions'
+import UserFormCard from '../components/UserFormCard';
 
 class UserForm extends React.Component {
 
@@ -23,17 +24,22 @@ class UserForm extends React.Component {
         e.preventDefault()
         let user = this.state
         this.props.createUser(user)
-        .then(this.props.history.push('/'))
+        .then(() => this.props.history.push('/posts/new'))
         // render to main page
     }
 
     render(){
+        const formSubject = "Add New Acount"
+        const buttonName = "Add Account"
         return(
             <div>
-                <h3>Add New Acount</h3>
-                <p>Username(Nickname): <input onChange={this.handleChange} type="text" name="name" value={this.state.name}></input></p>
-                <p>Password: <input onChange={this.handleChange} type="text" name="password" value={this.state.password}></input></p>
-                <button onClick={this.handleSubmit} type="submit">Add Account</button>
+                <UserFormCard 
+                    formSubject={ formSubject }
+                    state={ this.state }
+                    handleChange={ this.handleChange }
+                    handleSubmit={ this.handleSubmit }
+                    buttonName={ buttonName }
+                />
             </div>
         )
     }

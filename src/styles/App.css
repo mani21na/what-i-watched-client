@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.App-post-location {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: column-reverse;;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,9 +1,13 @@
-const userReducer = (state = {users: [], loading: false}, action) => {
+const initialState = {
+    users: []
+}
+
+const userReducer = (state = initialState.users, action) => {
     switch(action.type){
         case 'FETCHING_USERS':
-            return {...state, loading: true}
-        case 'SHOW_USERS':
-            return {...state, users: action.payload, loading: false}
+            return {...state}
+        case 'GET_USERS':
+            return {...state, users: action.payload}
         case 'ADD_USER':
             return {...state, users: [action.payload, ...state.users]}
         case 'DELETE_USER':
@@ -14,3 +18,9 @@ const userReducer = (state = {users: [], loading: false}, action) => {
 }
 
 export default userReducer
+
+/*** Selector ***/
+export const getUserByPostId = (state, postId) => {
+    const user = state.userReducer.users.filter(user => user.post_id === postId)
+    return user
+}
